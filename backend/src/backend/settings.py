@@ -29,9 +29,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
@@ -46,11 +43,14 @@ SIMPLE_JWT = {
 STARTED_APPS = [
     'apis',
     'console',
+    'books',
+    'rest_framework.authtoken',
 ]
 
 VENDOR_APPS = [
     'rest_framework',
     'corsheaders',
+    'drf_yasg',
 ]
 
 INSTALLED_APPS = [
@@ -152,3 +152,27 @@ CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWS_CREDENTIALS = True
 
 AUTH_USER_MODEL = 'console.CustomUser'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+        'rest_framework.throttling.ScopedRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '1000/minute',    # Unauthenticated users are limited to 10 requests per minute
+        'user': '1000/day',     # Authenticated users are limited to 1000 requests per day
+        'book_viewset': '200000/minute',
+    }
+}
+
+
+
