@@ -45,6 +45,7 @@ STARTED_APPS = [
     'console',
     'books',
     'rest_framework.authtoken',
+    'job_postings',
 ]
 
 VENDOR_APPS = [
@@ -101,11 +102,18 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'django',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
+        'HOST': 'localhost',
+        'PORT': '5433',
+        'OPTIONS': {
+            'options': '-c search_path=django,public',
+        },
+        'SCHEMA': 'django'  # This will be used to create the schema if it doesn't exist
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
