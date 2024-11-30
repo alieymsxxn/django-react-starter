@@ -46,6 +46,7 @@ SIMPLE_JWT = {
 STARTED_APPS = [
     'apis',
     'console',
+    'notes',
 ]
 
 VENDOR_APPS = [
